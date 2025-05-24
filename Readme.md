@@ -92,59 +92,102 @@ Copy the resulting AMI ID into terraform.tfvars as:
 windows_ami_id = "ami-0abcd1234example"
 ```
 ---
-### Step 4: Initialize and Plan Terraform
-```bash
-cd ../
-terraform init
-terraform plan
+##  GitHub Actions Terraform CI/CD Pipeline
+
+This repository includes a fully automated **CI/CD pipeline** built using **GitHub Actions** to handle infrastructure provisioning via **Terraform**.
+
+The workflow is defined in:
+
+```text
+.github/workflows/terraform.yml
 ```
-Check all resources are being created as expected.
 
----
-### Step 5: Apply Infrastructure
-```bash
-terraform apply
+## 📌 Workflow Overview
+
+| Step | Description |
+|------|-------------|
+| Checkout | Fetches the latest source code from the repository |
+| Setup Terraform | Installs Terraform CLI (version pinned via env.TF_VERSION) |
+| AWS Credentials Injection | Uses secrets to authenticate with AWS |
+| Environment Debug | Verifies that all required TF_VAR_* are injected |
+| Terraform Format | Checks formatting using terraform fmt |
+| Terraform Init | Initializes the backend and modules |
+| Terraform Validate | Validates Terraform code syntax and semantics |
+| Terraform Plan | Generates and stores an execution plan (tfplan) |
+| Terraform Apply | Automatically applies the plan (only on push to main) |
+
+## 🧪 Trigger Conditions
+
+The workflow is triggered on:
+
+```yaml
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
 ```
-This will deploy:
 
-- VPC with 2 public subnets
+## 🔐 Required Secrets in GitHub
 
-- Security Groups (EC2, RDS, ELB)
+Go to your repository → Settings → Secrets and variables → Actions → New repository secret.
 
-- RDS PostgreSQL Multi-AZ
+| Secret Name | Purpose |
+|-------------|---------|
+| AWS_ACCESS_KEY_ID | AWS IAM Access Key for CI/CD |
+| AWS_SECRET_ACCESS_KEY | AWS IAM Secret Key |
+| TF_VAR_account_id | Used by Terraform to set IAM/account context |
+| TF_VAR_db_password | Password used for RDS DB provisioning |
 
-- EC2 with custom AMI
+## 📁 Pipeline File: .github/workflows/terraform.yml
 
-- Application Load Balancer with Auto Scaling Group
+### Key Environment Variables
 
----
-### Step 6: CI/CD via GitHub Actions (Optional)
-```bash
-git add .
-git commit -m "Deploy infrastructure"
-git push origin main
+```yaml
+env:
+  TF_VERSION: 1.4.6
+  AWS_REGION: us-east-1
 ```
-Ensure the following GitHub secrets are set:
 
-### Secret	Description
-AWS_ACCESS_KEY_ID	AWS credentials
-AWS_SECRET_ACCESS_KEY	AWS credentials
-TF_VAR_db_password	Optional secret var for DB password
+### Example Snippet (Configure AWS + Terraform Init):
+
+```yaml
+- name: Configure AWS Credentials
+  uses: aws-actions/configure-aws-credentials@v2
+  with:
+    aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+    aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    aws-region: ${{ env.AWS_REGION }}
+
+- name: Terraform Init
+  run: terraform init
+```
+
+### Conditional Apply (Only on Push to main)
+
+```yaml
+- name: Terraform Apply (Main Only)
+  if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+  run: terraform apply -input=false -auto-approve tfplan
+```
+
+## 🔁 Reusable Workflow Logic
+
+The pipeline is built to be idempotent:
+
+- Pushing updates to main will re-provision and apply changes.
+- Pull requests run plan but do not apply — enabling preview and safety.
+
+## ✅ Before You Run
+
+Ensure the following:
+
+- terraform init has been run at least once manually to bootstrap backend (S3 + DynamoDB)
+- AWS secrets are properly configured in GitHub Actions
+- You've built or referenced the correct AMI ID in your .tfvars 
 
 ---
-###  Step 7: Access Outputs
-bash
-terraform output
-This includes:
-
-- RDS endpoint
-
-- EC2 public IP
-
-- ALB DNS name
-
----
-Notes & Best Practices
+## Notes & Best Practices
 
 - RDS uses deletion_protection = true - disable for full teardown
 
@@ -154,20 +197,8 @@ Notes & Best Practices
 
 - Extend for dev/staging/prod via workspaces or directories
 
-### Cleanup
-```bash
-terraform destroy
-```
-
-For backend infra cleanup:
-
-```bash
-cd bootstrap
-terraform destroy
-```
-
-### Thank You
-This setup was built with a strong focus on professional infrastructure practices. Use it as a base for real projects, teams, or internal IaC training.
+## Thank You
+This setup was built with a strong focus on professional infrastructure practices. Use it as a base for real projects, teams, or self training.
 
 
 
