@@ -32,7 +32,7 @@ resource "aws_iam_policy" "scoped_access" {
         Resource = "*",
         Condition = {
           StringLikeIfExists = {
-            "aws:ResourceTag/Project": "DevOps-Training"
+            "aws:ResourceTag/Project" : "DevOps-Training"
           }
         }
       }
@@ -58,8 +58,8 @@ resource "aws_iam_policy" "assume_role_user_policy" {
     Version = "2012-10-17",
     Statement = [
       {
-        Effect = "Allow",
-        Action = "sts:AssumeRole",
+        Effect   = "Allow",
+        Action   = "sts:AssumeRole",
         Resource = aws_iam_role.terraform_managed_role.arn
       }
     ]

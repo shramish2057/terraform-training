@@ -34,7 +34,7 @@ resource "aws_db_instance" "postgres" {
 # OPTIONAL: Init SQL script upload via local-exec (requires AWS CLI + DB access)
 resource "null_resource" "db_init_script" {
   provisioner "local-exec" {
-    command = "aws rds-data execute-statement --resource-arn ${aws_db_instance.postgres.arn} --secret-arn <SECRET_ARN> --sql file://scripts/init_db.sql --database ${var.db_name} --region ${var.aws_region}"
+    command     = "aws rds-data execute-statement --resource-arn ${aws_db_instance.postgres.arn} --secret-arn <SECRET_ARN> --sql file://scripts/init_db.sql --database ${var.db_name} --region ${var.aws_region}"
     interpreter = ["/bin/bash", "-c"]
   }
 

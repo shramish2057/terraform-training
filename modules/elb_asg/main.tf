@@ -5,7 +5,7 @@ resource "aws_launch_template" "win_lt" {
   key_name      = var.key_name
 
   network_interfaces {
-    security_groups = [var.sg_id]
+    security_groups             = [var.sg_id]
     associate_public_ip_address = true
   }
 
@@ -62,20 +62,20 @@ resource "aws_lb_listener" "http" {
 }
 
 resource "aws_autoscaling_group" "asg" {
-  name                      = "${var.environment}-asg"
-  desired_capacity          = 1
-  max_size                  = 2
-  min_size                  = 1
-  vpc_zone_identifier       = var.subnet_ids
+  name                = "${var.environment}-asg"
+  desired_capacity    = 1
+  max_size            = 2
+  min_size            = 1
+  vpc_zone_identifier = var.subnet_ids
 
   launch_template {
     id      = aws_launch_template.win_lt.id
     version = "$Latest"
   }
 
-  target_group_arns           = [aws_lb_target_group.tg.arn]
-  health_check_type           = "EC2"
-  health_check_grace_period   = 300
+  target_group_arns         = [aws_lb_target_group.tg.arn]
+  health_check_type         = "EC2"
+  health_check_grace_period = 300
 
   # Static tag for Name (this tag also propagates to launched EC2s)
   tag {

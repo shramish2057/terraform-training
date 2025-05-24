@@ -4,11 +4,11 @@ resource "aws_security_group" "rds" {
   vpc_id      = var.vpc_id
 
   ingress {
-    description      = "Allow PostgreSQL from EC2"
-    from_port        = 1433
-    to_port          = 1433
-    protocol         = "tcp"
-    security_groups  = [aws_security_group.ec2.id]
+    description     = "Allow PostgreSQL from EC2"
+    from_port       = 1433
+    to_port         = 1433
+    protocol        = "tcp"
+    security_groups = [aws_security_group.ec2.id]
   }
 
   egress {
