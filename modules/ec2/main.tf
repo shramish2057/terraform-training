@@ -5,7 +5,12 @@ resource "aws_instance" "win2025" {
   vpc_security_group_ids      = [var.sg_id]
   key_name                    = var.key_name
   associate_public_ip_address = true
-  user_data                   = file(var.user_data_file)
+  user_data = templatefile(var.user_data_file, {
+    db_host     = var.rds_endpoint
+    db_user     = var.db_username
+    db_password = var.db_password
+    db_name     = var.db_name
+  })
 
   root_block_device {
     volume_size = var.root_volume_size

@@ -52,9 +52,14 @@ module "ec2" {
   sg_id          = module.sg.ec2_sg_id
   key_name       = "my-keypair"
   user_data_file = "${path.module}/scripts/user_data.ps1"
+  rds_endpoint   = module.rds.rds_endpoint
+  db_username    = var.db_username
+  db_password    = var.db_password
+  db_name        = "trainingdb"
   environment    = var.environment
   tags           = local.common_tags
 }
+
 
 module "elb_asg" {
   source         = "./modules/elb_asg"

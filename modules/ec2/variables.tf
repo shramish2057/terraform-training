@@ -47,3 +47,24 @@ variable "tags" {
   type        = map(string)
   default     = {}
 }
+
+variable "rds_endpoint" {
+  type        = string
+  description = "RDS endpoint for DB init script"
+}
+
+variable "db_username" {
+  type        = string
+  description = "DB user for init script"
+}
+
+variable "db_password" {
+  type        = string
+  description = "DB password for init script"
+  sensitive   = true
+}
+
+variable "db_name" {
+  type        = string
+  description = "DB name for init script"
+}

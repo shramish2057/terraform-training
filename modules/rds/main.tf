@@ -26,9 +26,8 @@ resource "aws_db_instance" "postgres" {
   deletion_protection     = true
   backup_retention_period = 7
   skip_final_snapshot     = false
-
-  vpc_security_group_ids = [var.sg_id]
-  db_subnet_group_name   = aws_db_subnet_group.main.name
+  vpc_security_group_ids  = [var.sg_id]
+  db_subnet_group_name    = aws_db_subnet_group.main.name
 
   lifecycle {
     create_before_destroy = true
@@ -37,18 +36,4 @@ resource "aws_db_instance" "postgres" {
   tags = merge(var.tags, {
     Name = "${var.environment}-postgres"
   })
-}
-
-# Init SQL script upload via local-exec (requires AWS CLI + DB access)
-resource "null_resource" "db_init_script" {
-  provisioner "local-exec" {
-    command = "PGPASSWORD=${var.db_password} psql -h ${aws_db_instance.postgres.address} -U ${var.db_username} -d ${var.db_name} -f scripts/init_db.sql"
-    environment = {
-      PGPASSWORD = var.db_password
-    }
-    interpreter = ["/bin/bash", "-c"]
-  }
-
-  depends_on = [aws_db_instance.postgres]
-  count      = var.run_init_sql ? 1 : 0
 }
