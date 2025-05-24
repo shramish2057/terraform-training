@@ -40,7 +40,6 @@ module "rds" {
   db_name      = "trainingdb"
   environment  = var.environment
   aws_region   = var.aws_region
-  run_init_sql = false
   tags         = local.common_tags
   secret_arn   = var.secret_arn
   run_init_sql = var.run_init_sql
