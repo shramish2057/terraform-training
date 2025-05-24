@@ -3,12 +3,6 @@ variable "aws_region" {
   type        = string
 }
 
-variable "aws_profile" {
-  description = "The AWS CLI profile to use for authentication."
-  type        = string
-  default     = "default"
-}
-
 variable "environment" {
   description = "Deployment environment name (e.g., dev, prod)"
   type        = string
