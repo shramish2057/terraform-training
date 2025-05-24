@@ -7,7 +7,7 @@
 **/terraform.tfplan
 **/*.tfvars
 **/*.tfvars.json
-**/*.auto.tfvars
+# **/*.auto.tfvars
 **/.terraform.lock.hcl
 
 # Crash/debug logs
