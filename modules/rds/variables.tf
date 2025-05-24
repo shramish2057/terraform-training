@@ -57,3 +57,13 @@ variable "run_init_sql" {
   type        = bool
   default     = false
 }
+
+variable "secret_arn" {
+  description = "Secrets Manager ARN for SQL script execution"
+  type        = string
+}
+
+variable "run_init_sql" {
+  description = "Whether to run the DB initialization SQL script"
+  type        = bool
+}

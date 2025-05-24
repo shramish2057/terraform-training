@@ -33,7 +33,7 @@ module "iam" {
 
 module "rds" {
   source       = "./modules/rds"
-  subnet_ids   = module.vpc.public_subnet_ids
+  subnet_ids   = module.vpc.private_subnet_ids
   sg_id        = module.sg.rds_sg_id
   db_username  = var.db_username
   db_password  = var.db_password
@@ -42,6 +42,8 @@ module "rds" {
   aws_region   = var.aws_region
   run_init_sql = false
   tags         = local.common_tags
+  secret_arn   = var.secret_arn
+  run_init_sql = var.run_init_sql
 }
 
 module "ec2" {

@@ -27,7 +27,9 @@ resource "aws_iam_policy" "scoped_access" {
         Action = [
           "ec2:*",
           "rds:*",
-          "s3:*"
+          "s3:*",
+          "rds-data:ExecuteStatement",
+          "secretsmanager:GetSecretValue"
         ],
         Resource = "*",
         Condition = {

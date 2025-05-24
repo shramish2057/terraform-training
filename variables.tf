@@ -39,3 +39,14 @@ variable "windows_ami_id" {
   description = "AMI ID for the Windows Server to use in EC2"
   type        = string
 }
+
+variable "secret_arn" {
+  description = "Secret ARN for RDS credentials"
+  type        = string
+}
+
+variable "run_init_sql" {
+  description = "Whether to run DB init SQL script"
+  type        = bool
+  default     = false
+}
