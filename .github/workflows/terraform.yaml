@@ -60,12 +60,6 @@ jobs:
       - name: Terraform Validate
         run: terraform validate
 
-      - name: Terraform Console Debug (optional)
-        run: |
-          terraform console <<EOF
-          "AssumeRoleARN: arn:aws:iam::\${var.account_id}:user/\${var.user_name}"
-          EOF
-
       - name: Terraform Plan
         run: terraform plan -input=false -out=tfplan
 
