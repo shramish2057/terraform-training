@@ -57,9 +57,6 @@ jobs:
       - name: Terraform Init
         run: terraform init
 
-      - name: Terraform Taint RDS Instance
-        run: terraform taint module.rds.aws_db_instance.postgres
-
       - name: Terraform Validate
         run: terraform validate
 
