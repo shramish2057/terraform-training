@@ -1,0 +1,47 @@
+variable "aws_region" {
+  description = "The AWS region where resources will be deployed."
+  type        = string
+}
+
+variable "aws_profile" {
+  description = "The AWS CLI profile to use for authentication."
+  type        = string
+  default     = "default"
+}
+
+variable "environment" {
+  description = "Deployment environment name (e.g., dev, prod)"
+  type        = string
+}
+
+variable "admin_cidr" {
+  description = "CIDR block for RDP access to EC2 (e.g. your IP)"
+  type        = string
+}
+
+variable "account_id" {
+  description = "AWS account ID for IAM trust relationships"
+  type        = string
+}
+
+variable "availability_zones" {
+  description = "List of Availability Zones to use (e.g. [\"us-east-1a\", \"us-east-1b\"])"
+  type        = list(string)
+}
+
+variable "db_username" {
+  description = "The master username for the RDS instance"
+  type        = string
+}
+
+
+variable "db_password" {
+  description = "RDS PostgreSQL admin password"
+  type        = string
+  sensitive   = true
+}
+
+variable "windows_ami_id" {
+  description = "AMI ID for the Windows Server to use in EC2"
+  type        = string
+}
