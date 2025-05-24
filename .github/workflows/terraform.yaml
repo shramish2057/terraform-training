@@ -45,9 +45,11 @@ jobs:
 
       - name: Debug Terraform input variables (safe)
         run: |
+          echo "Terraform Environment Debug"
           echo "TF_VAR_account_id=${TF_VAR_account_id}"
           echo "TF_VAR_db_password=[REDACTED]"
-          env | grep TF_VAR
+          echo "All TF_VAR_* seen by environment:"
+          env | grep TF_VAR || echo "No TF_VARs found!"
 
       - name: Terraform Format
         run: terraform fmt -check -recursive
@@ -57,6 +59,12 @@ jobs:
 
       - name: Terraform Validate
         run: terraform validate
+
+      - name: Terraform Console Debug (optional)
+        run: |
+          terraform console <<EOF
+          "AssumeRoleARN: arn:aws:iam::\${var.account_id}:user/\${var.user_name}"
+          EOF
 
       - name: Terraform Plan
         run: terraform plan -input=false -out=tfplan
