@@ -2,6 +2,10 @@ resource "aws_db_subnet_group" "main" {
   name       = "${var.environment}-rds-subnet-group"
   subnet_ids = var.subnet_ids
 
+  lifecycle {
+    create_before_destroy = true
+  }
+
   tags = merge(var.tags, {
     Name = "${var.environment}-rds-subnet-group"
   })
@@ -31,10 +35,13 @@ resource "aws_db_instance" "postgres" {
   })
 }
 
-# OPTIONAL: Init SQL script upload via local-exec (requires AWS CLI + DB access)
+# Init SQL script upload via local-exec (requires AWS CLI + DB access)
 resource "null_resource" "db_init_script" {
   provisioner "local-exec" {
-    command     = "aws rds-data execute-statement --resource-arn ${aws_db_instance.postgres.arn} --secret-arn ${var.secret_arn} --sql file://scripts/init_db.sql --database ${var.db_name} --region ${var.aws_region}"
+    command = "PGPASSWORD=${var.db_password} psql -h ${aws_db_instance.postgres.address} -U ${var.db_username} -d ${var.db_name} -f scripts/init_db.sql"
+    environment = {
+      PGPASSWORD = var.db_password
+    }
     interpreter = ["/bin/bash", "-c"]
   }
 
