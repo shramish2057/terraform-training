@@ -1,0 +1,44 @@
+# -----------------------------------------
+# Global Terraform Ignore
+# -----------------------------------------
+**/.terraform/
+**/*.tfstate
+**/*.tfstate.backup
+**/terraform.tfplan
+**/*.tfvars
+**/*.tfvars.json
+**/*.auto.tfvars
+**/.terraform.lock.hcl
+
+# Crash/debug logs
+crash.log
+
+# Sensitive overrides
+override.tf
+override.tf.json
+
+# Local secrets
+.env
+.env.*
+secrets.env
+
+# -----------------------------------------
+# Packer
+# -----------------------------------------
+packer/packer_cache/
+packer/*.pkrvars.hcl
+
+# -----------------------------------------
+# Editor/OS files
+# -----------------------------------------
+.DS_Store
+*.swp
+.idea/
+.vscode/
+*.bak
+*.tmp
+
+# -----------------------------------------
+# GitHub Actions (optional, if storing secrets locally)
+# -----------------------------------------
+.github/secrets/*
