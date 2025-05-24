@@ -37,8 +37,8 @@ jobs:
 
       - name: Normalize Terraform env var casing
         run: |
-          echo "TF_VAR_account_id=${TF_VAR_ACCOUNT_ID}" >> $GITHUB_ENV
-          echo "TF_VAR_db_password=${TF_VAR_DB_PASSWORD}" >> $GITHUB_ENV
+          echo "TF_VAR_account_id=${{ secrets.TF_VAR_ACCOUNT_ID }}" >> $GITHUB_ENV
+          echo "TF_VAR_db_password=${{ secrets.TF_VAR_DB_PASSWORD }}" >> $GITHUB_ENV
 
       - name: Clean previous .terraform dir (optional but safe)
         run: rm -rf .terraform
