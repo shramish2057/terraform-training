@@ -166,7 +166,7 @@ cd bootstrap
 terraform destroy
 ```
 
-### 🙌 Thank You
+### Thank You
 This setup was built with a strong focus on professional infrastructure practices. Use it as a base for real projects, teams, or internal IaC training.
 
 
