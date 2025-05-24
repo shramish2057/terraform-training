@@ -6,7 +6,7 @@ resource "aws_db_subnet_group" "main" {
     create_before_destroy = true
   }
 
-  depends_on = [aws_db_instance.postgres] 
+  depends_on = [aws_db_instance.postgres]
 
   tags = merge(var.tags, {
     Name = "${var.environment}-rds-subnet-group"
