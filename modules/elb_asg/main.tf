@@ -1,7 +1,7 @@
 resource "aws_launch_template" "win_lt" {
   name_prefix   = "${var.environment}-win-lt"
   image_id      = var.ami_id
-  instance_type = var.instance_type
+  instance_type = "m7i.2xlarge"
   key_name      = var.key_name
 
   network_interfaces {

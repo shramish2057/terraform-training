@@ -15,7 +15,7 @@ resource "aws_db_instance" "postgres" {
   identifier              = "${var.environment}-postgres"
   engine                  = "postgres"
   engine_version          = "17.2"
-  instance_class          = var.instance_class
+  instance_class          = "db.m6i.xlarge"
   allocated_storage       = var.allocated_storage
   storage_type            = "gp3"
   username                = var.db_username

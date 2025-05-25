@@ -84,3 +84,28 @@ resource "aws_route" "internet_access" {
   destination_cidr_block = "0.0.0.0/0"
   gateway_id             = aws_internet_gateway.igw.id
 }
+
+resource "aws_eip" "nat" {
+  count  = 2
+  domain = "vpc"
+  tags = merge(var.tags, {
+    Name = "${var.environment}-nat-eip-${count.index + 1}"
+  })
+}
+
+resource "aws_nat_gateway" "nat" {
+  count         = 2
+  allocation_id = aws_eip.nat[count.index].id
+  subnet_id     = aws_subnet.public[count.index].id
+
+  tags = merge(var.tags, {
+    Name = "${var.environment}-nat-${count.index + 1}"
+  })
+}
+
+resource "aws_route" "private_internet_access" {
+  count                  = length(var.availability_zones)
+  route_table_id         = aws_route_table.private.id
+  destination_cidr_block = "0.0.0.0/0"
+  nat_gateway_id         = aws_nat_gateway.nat[count.index].id
+}

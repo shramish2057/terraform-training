@@ -18,7 +18,7 @@ module "vpc" {
 module "sg" {
   source      = "./modules/sg"
   vpc_id      = module.vpc.vpc_id
-  admin_cidr  = var.admin_cidr # Replace with your ip
+  admin_cidr  = var.admin_cidr
   environment = var.environment
   tags        = local.common_tags
 }
@@ -44,22 +44,6 @@ module "rds" {
   secret_arn   = var.secret_arn
   run_init_sql = var.run_init_sql
 }
-
-module "ec2" {
-  source         = "./modules/ec2"
-  ami_id         = var.windows_ami_id
-  subnet_id      = module.vpc.public_subnet_ids[0]
-  sg_id          = module.sg.ec2_sg_id
-  key_name       = "my-keypair"
-  user_data_file = "${path.module}/scripts/user_data.ps1"
-  rds_endpoint   = module.rds.rds_endpoint
-  db_username    = var.db_username
-  db_password    = var.db_password
-  db_name        = "trainingdb"
-  environment    = var.environment
-  tags           = local.common_tags
-}
-
 
 module "elb_asg" {
   source         = "./modules/elb_asg"
