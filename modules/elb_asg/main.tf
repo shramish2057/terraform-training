@@ -77,9 +77,6 @@ resource "aws_autoscaling_group" "asg" {
   health_check_type         = "EC2"
   health_check_grace_period = 300
 
-  # Enable AZ rebalancing for better high availability
-  availability_zone_rebalance = true
-
   # Static tag for Name (this tag also propagates to launched EC2s)
   tag {
     key                 = "Name"
