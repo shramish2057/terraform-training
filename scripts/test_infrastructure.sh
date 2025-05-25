@@ -101,10 +101,10 @@ fi
 # 7. Check IAM Setup
 echo -e "\n${CYAN}=== Testing IAM Setup ===${NC}"
 IAM_USER=$(aws iam get-user --user-name tf-manager --query 'User.UserName' --output text 2>/dev/null || echo "")
-IAM_ROLE=$(aws iam get-role --role-name "${var.environment}-infra-role" --query 'Role.RoleName' --output text 2>/dev/null || echo "")
+IAM_ROLE=$(aws iam get-role --role-name "prod-infra-role" --query 'Role.RoleName' --output text 2>/dev/null || echo "")
 
 write_test_result "IAM User" "$([ "$IAM_USER" = "tf-manager" ] && echo true || echo false)" "IAM User: $IAM_USER"
-write_test_result "IAM Role" "$([ "$IAM_ROLE" = "${var.environment}-infra-role" ] && echo true || echo false)" "IAM Role: $IAM_ROLE"
+write_test_result "IAM Role" "$([ "$IAM_ROLE" = "prod-infra-role" ] && echo true || echo false)" "IAM Role: $IAM_ROLE"
 
 # 8. Check ELB and ASG
 echo -e "\n${CYAN}=== Testing ELB and ASG ===${NC}"
