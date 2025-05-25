@@ -63,9 +63,9 @@ resource "aws_lb_listener" "http" {
 
 resource "aws_autoscaling_group" "asg" {
   name                = "${var.environment}-asg"
-  desired_capacity    = 1
+  desired_capacity    = 2
   max_size            = 2
-  min_size            = 1
+  min_size            = 2
   vpc_zone_identifier = var.subnet_ids
 
   launch_template {
@@ -76,6 +76,9 @@ resource "aws_autoscaling_group" "asg" {
   target_group_arns         = [aws_lb_target_group.tg.arn]
   health_check_type         = "EC2"
   health_check_grace_period = 300
+
+  # Enable AZ rebalancing for better high availability
+  availability_zone_rebalance = true
 
   # Static tag for Name (this tag also propagates to launched EC2s)
   tag {
