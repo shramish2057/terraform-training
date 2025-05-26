@@ -1,7 +1,6 @@
 resource "aws_s3_bucket" "app_bucket" {
   provider = aws.s3
   bucket   = "${var.environment}-app-bucket"
-  region   = "us-east-1" # Explicitly set region
 
   tags = merge(var.tags, {
     Name = "${var.environment}-app-bucket"
