@@ -43,8 +43,8 @@ resource "aws_s3_bucket_policy" "bucket_policy" {
     Version = "2012-10-17"
     Statement = [
       {
-        Sid       = "AllowEC2Access"
-        Effect    = "Allow"
+        Sid    = "AllowEC2Access"
+        Effect = "Allow"
         Principal = {
           AWS = var.ec2_role_arn
         }
@@ -59,8 +59,8 @@ resource "aws_s3_bucket_policy" "bucket_policy" {
         ]
       },
       {
-        Sid       = "AllowRDSAccess"
-        Effect    = "Allow"
+        Sid    = "AllowRDSAccess"
+        Effect = "Allow"
         Principal = {
           AWS = var.rds_role_arn
         }
