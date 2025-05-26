@@ -20,29 +20,6 @@ This repository contains a **complete, production-grade Infrastructure-as-Code (
 
 ---
 
-## Infrastructure Overview
-
-### Network Architecture
-- VPC CIDR: 10.0.0.0/16
-- 2 Public Subnets (10.0.0.0/24, 10.0.1.0/24)
-- 2 Private Subnets (10.0.100.0/24, 10.0.101.0/24)
-- 2 NAT Gateways (one in each public subnet for high availability)
-- Internet Gateway for public subnet internet access
-
-### Compute Resources
-- Auto Scaling Group (ASG) with Windows Server instances (m7i.2xlarge)
-- ASG spans both public subnets for high availability
-- Application Load Balancer (ALB) in public subnets
-- RDS PostgreSQL instance (db.m6i.xlarge) in Multi-AZ configuration
-
-### Security
-- Security groups for RDS, EC2, and ALB
-- Private subnets for RDS
-- Public subnets for ALB and EC2 instances
-- IAM roles and policies for secure access
-
----
-
 ## 📁 Folder Structure
 
 ```text
