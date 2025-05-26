@@ -1,3 +1,13 @@
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
+      configuration_aliases = [ aws.s3 ]
+    }
+  }
+}
+
 resource "aws_s3_bucket" "app_bucket" {
   provider = aws.s3
   bucket   = "${var.environment}-app-bucket"

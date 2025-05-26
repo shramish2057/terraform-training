@@ -38,8 +38,11 @@ jobs:
       - name: Debug AWS Configuration
         run: |
           echo "AWS Region: $AWS_REGION"
+          echo "AWS Access Key ID: ${AWS_ACCESS_KEY_ID:0:5}..."
           aws configure list
           aws sts get-caller-identity
+          aws configure get region
+          aws configure get aws_access_key_id
 
       - name: Normalize Terraform env var casing
         run: |
