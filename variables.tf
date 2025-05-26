@@ -1,11 +1,13 @@
 variable "aws_region" {
-  description = "The AWS region where resources will be deployed."
+  description = "AWS region to deploy resources"
   type        = string
+  default     = "us-east-1"
 }
 
 variable "environment" {
-  description = "Deployment environment name (e.g., dev, prod)"
+  description = "Environment name (e.g., dev, prod)"
   type        = string
+  default     = "prod"
 }
 
 variable "admin_cidr" {
@@ -27,7 +29,6 @@ variable "db_username" {
   description = "The master username for the RDS instance"
   type        = string
 }
-
 
 variable "db_password" {
   description = "RDS PostgreSQL admin password"
