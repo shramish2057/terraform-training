@@ -60,9 +60,9 @@ module "elb_asg" {
 module "s3" {
   source = "./modules/s3"
 
-  environment = var.environment
-  tags       = local.common_tags
-  aws_region = var.aws_region
+  environment  = var.environment
+  tags         = local.common_tags
+  aws_region   = var.aws_region
   ec2_role_arn = module.iam.ec2_role_arn
   rds_role_arn = module.iam.rds_role_arn
 }
