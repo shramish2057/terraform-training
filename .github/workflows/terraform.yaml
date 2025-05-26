@@ -35,6 +35,12 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
+      - name: Debug AWS Configuration
+        run: |
+          echo "AWS Region: $AWS_REGION"
+          aws configure list
+          aws sts get-caller-identity
+
       - name: Normalize Terraform env var casing
         run: |
           echo "TF_VAR_account_id=${{ secrets.TF_VAR_ACCOUNT_ID }}" >> $GITHUB_ENV

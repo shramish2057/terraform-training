@@ -57,7 +57,6 @@ variable "run_init_sql" {
   type        = bool
   default     = false
 }
-
 variable "secret_arn" {
   description = "Secrets Manager ARN for SQL script execution"
   type        = string
