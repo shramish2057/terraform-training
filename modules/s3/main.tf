@@ -5,12 +5,22 @@ terraform {
       version               = "~> 5.0"
       configuration_aliases = [aws.s3]
     }
+    random = {
+      source  = "hashicorp/random"
+      version = "~> 3.0"
+    }
   }
+}
+
+resource "random_string" "bucket_suffix" {
+  length  = 8
+  special = false
+  upper   = false
 }
 
 resource "aws_s3_bucket" "app_bucket" {
   provider = aws.s3
-  bucket   = "${var.environment}-app-bucket"
+  bucket   = "${var.environment}-app-bucket-${random_string.bucket_suffix.result}"
 
   tags = merge(var.tags, {
     Name = "${var.environment}-app-bucket"
